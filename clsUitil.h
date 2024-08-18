@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include "clsDate.h";
+#include "clsDate.h"
 
 using namespace std;
 
@@ -11,8 +11,10 @@ class clsUitil
 
 public:
 
-	enum enCharType { SamallLetter = 1, CapitalLetter = 2, Digit = 3,
-		MixChars = 4 , SepcialCharcter = 5};
+	enum enCharType {
+		SamallLetter = 1, CapitalLetter = 2, Digit = 3,
+		MixChars = 4, SepcialCharcter = 5
+	};
 
 	static void Srand()
 	{
@@ -38,26 +40,26 @@ public:
 
 		switch (CharType)
 		{
-			case enCharType::SamallLetter:
-			{
-				return char(RandomNumber(97, 122));
-				break;
-			}
-			case enCharType::CapitalLetter:
-			{
-				return char(RandomNumber(65, 90));
-				break;
-			}
-			case enCharType::Digit:
-			{
-				return char(RandomNumber(48, 57));
-				break;
-			}
-			case enCharType::SepcialCharcter:
-			{
-				return char(RandomNumber(33, 47));
-				break;
-			}
+		case enCharType::SamallLetter:
+		{
+			return char(RandomNumber(97, 122));
+			break;
+		}
+		case enCharType::CapitalLetter:
+		{
+			return char(RandomNumber(65, 90));
+			break;
+		}
+		case enCharType::Digit:
+		{
+			return char(RandomNumber(48, 57));
+			break;
+		}
+		case enCharType::SepcialCharcter:
+		{
+			return char(RandomNumber(33, 47));
+			break;
+		}
 		}
 
 	}
@@ -78,7 +80,7 @@ public:
 		string Key = "";
 
 		Key = GenerateWord(CharType, 4) + "-";
-		Key = Key +GenerateWord(CharType, 4) + "-";
+		Key = Key + GenerateWord(CharType, 4) + "-";
 		Key = Key + GenerateWord(CharType, 4) + "-";
 		Key = Key + GenerateWord(CharType, 4);
 
@@ -92,7 +94,7 @@ public:
 			cout << "Key [" << i << "] ";
 			cout << GenerateKey(CharType) << endl;
 		}
-	}	
+	}
 
 	static void FillArrayWithRandomNumbers(int arr[], int arrLength, int RandNumFrom, int RandNumTo)
 	{
@@ -100,7 +102,7 @@ public:
 			arr[i] = RandomNumber(RandNumFrom, RandNumTo);
 	}
 
-	static void FillArrayWithRandomWrods(string arr[], int arrLength, enCharType CharType , int WordLength)
+	static void FillArrayWithRandomWrods(string arr[], int arrLength, enCharType CharType, int WordLength)
 	{
 		for (int i = 0; i < arrLength; i++)
 			arr[i] = GenerateWord(CharType, WordLength);
@@ -112,16 +114,18 @@ public:
 			arr[i] = GenerateKey(CharType);
 	}
 
-	static void Swap(bool& A, bool& B)
+	template <typename T>
+	static void Swa(T& A, T& B)
 	{
-		bool Temp;
+		T Temp;
 
 		Temp = A;
 		A = B;
 		B = Temp;
 	}
 
-	static void Swap(int& A, int& B)
+	//you don't need these functions because above we used (teplate function) to use all or any (datatype function)
+	/*static void Swap(int& A, int& B)
 	{
 		int Temp;
 
@@ -148,11 +152,6 @@ public:
 		B = Temp;
 	}
 
-	static void Swap(clsDate& Date1, clsDate& Date2)
-	{
-		clsDate::SwapDates(Date1, Date2);
-	}
-		
 	static void Swap(string& A, string& B)
 	{
 		string Temp;
@@ -162,13 +161,18 @@ public:
 		B = Temp;
 	}
 
-	static void SwapChar(char& A, char& B)
+	static void Swap(char& A, char& B)
 	{
 		char Temp;
 
 		Temp = A;
 		A = B;
 		B = Temp;
+	}*/
+
+	static void Swap(clsDate& Date1, clsDate& Date2)
+	{
+		clsDate::SwapDates(Date1, Date2);
 	}
 
 	static void ShuffleArray(int arr[], int arrLength)
@@ -199,7 +203,7 @@ public:
 		return t;
 	}
 
-	static string EncryptText(string Text, short EncryptionKey)
+	static string EncryptText(string Text, short EncryptionKey=2)
 	{
 		for (int i = 0; i <= Text.length(); i++)
 		{
@@ -208,7 +212,7 @@ public:
 		return Text;
 	}
 
-	static string DecryptText(string Text, short EncryptionKey)
+	static string DecryptText(string Text, short EncryptionKey=2)
 	{
 		for (int i = 0; i <= Text.length(); i++)
 		{
@@ -217,17 +221,69 @@ public:
 		return Text;
 	}
 
+	static string NumberToText(int Number)
+	{
+
+		if (Number == 0)
+		{
+			return "";
+		}
+
+		if (Number >= 1 && Number <= 19)
+		{
+			string arr[] = { "",
+				"One", "Two", "Three", "Four", "Five", "Six", "Seven",
+					"Eight", "Nine", "Ten", "ELeven", "Twelve", "Thirteen", "Fourteen",
+					   "Fifteen", "Sixteen",  "Seventeen", "Eighteen", "Nineteen" };
+
+			return arr[Number];
+		}
+
+		if (Number >= 20 && Number <= 99)
+		{
+			string arr[] = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+
+			return arr[Number / 10] + " " + NumberToText(Number % 10);
+		}
+
+		if (Number >= 100 && Number <= 199)
+		{
+			return "One Hundred " + NumberToText(Number % 100);
+		}
+
+		if (Number >= 200 && Number <= 999)
+		{
+			return NumberToText(Number / 100) + " Hundreds " + NumberToText(Number % 100);
+		}
+
+		if (Number >= 1000 && Number <= 1999)
+		{
+			return "One Thousand " + NumberToText(Number % 1000);
+		}
+
+		if (Number >= 2000 && Number <= 999999)
+		{
+			return NumberToText(Number / 1000) + " Thousands " + NumberToText(Number % 1000);
+		}
+
+		if (Number >= 1000000 && Number <= 1999999)
+		{
+			return "One Million " + NumberToText(Number % 1000000);
+		}
+
+		if (Number >= 2000000 && Number <= 999999999)
+		{
+			return NumberToText(Number / 1000000) + " Millions " + NumberToText(Number % 1000000);
+		}
+
+		if (Number >= 1000000000 && Number <= 1999999999)
+		{
+			return "One Billion " + NumberToText(Number % 1000000000);
+		}
+		else
+		{
+			return NumberToText(Number % 1000000000) + " Billions " + NumberToText(Number % 1000000000);
+		}
+	}
+
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
